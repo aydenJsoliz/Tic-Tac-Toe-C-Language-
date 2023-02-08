@@ -1,0 +1,145 @@
+/* C program by Ayden Soliz for CS1310 Oct 2020
+ * This program allows two users to play a game of Tic-Tac-Toe until someone wins or 
+   a tie is reached. The program prints out a board and a matching key, with designs
+   of my choice.
+                                   /\
+                              /\  //\\
+                       /\    //\\///\\\        /\
+                      //\\  ///\////\\\\  /\  //\\
+         /\          /  ^ \/^ ^/^  ^  ^ \/^ \/  ^ \
+        / ^\    /\  / ^   /  ^/ ^ ^ ^   ^\ ^/  ^^  \
+       /^   \  / ^\/ ^ ^   ^ / ^  ^    ^  \/ ^   ^  \       *
+      /  ^ ^ \/^  ^\ ^ ^ ^   ^  ^   ^   ____  ^   ^  \     /|\
+     / ^ ^  ^ \ ^  _\___________________|  |_____^ ^  \   /||o\
+    / ^^  ^ ^ ^\  /______________________________\ ^ ^ \ /|o|||\
+   /  ^  ^^ ^ ^  /________________________________\  ^  /|||||o|\
+  /^ ^  ^ ^^  ^    ||___|___||||||||||||___|__|||      /||o||||||\       
+ / ^   ^   ^    ^  ||___|___||||||||||||___|__|||  dream   | |           
+/ ^ ^ ^  ^  ^  ^   ||||||||||||||||||||||||||||||oooooooooo| |ooooooo  
+ooooooooooooooooooooooooooooooooooooooooooooooooooooooooo */
+#include <stdio.h>
+
+char ttt[3][3];       /* the array for the moves */
+char player = 'X';    /* player 1 and player 2 */
+int countmove = 0;    /* counts the number of moves made */
+int row, col;         /* represents row and column selected */
+int selectmove = 10;  /* goes into while loop in GetValidMove */
+char win = 'n';       /* not a win to begin game, could change to win */
+
+
+
+void PrintBoard(void)  /* prints the TicTacToe board and the key */
+{
+ printf("  Key:    |   |            Board:            !              !            \n"
+        "        1 | 2 | 3                            !              !            \n"
+	    "       ___|___|___                     %c     !      %c       !    %c      \n"
+		"          |   |                              !              !            \n"
+		"        4 | 5 | 6                            !              !            \n"
+		"       ___|___|___                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   \n"
+		"          |   |                              !              !            \n"
+		"        7 | 8 | 9                            !              !            \n"
+		"                                       %c     !      %c       !    %c      \n"
+		"                                             !              !            \n"
+		"                                             !              !            \n"
+		"                                    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   \n"
+		"                                             !              !            \n"
+		"                                             !              !            \n"
+		"                                       %c     !      %c       !    %c      \n"
+		"                                             !              !            \n"
+		"                                             !              !            \n\n"
+		,ttt[0][0], ttt[0][1], ttt[0][2], ttt[1][0], ttt[1][1], ttt[1][2], ttt[2][0], ttt[2][1], ttt[2][2] );	
+}
+
+
+
+void GetValidMove(void) /* gets move from user and checks if valid */
+{
+ do {
+     do {           /* gets input from user, checks if it's valid */
+         printf("Player %c, it is your turn.\n",player);
+	     printf("Please select which space to make your move: ");
+		 scanf("%d",&selectmove);
+		 printf("\n\n");
+	    }while (selectmove<1 || selectmove>9);
+	 switch (selectmove)     /* prints move choice */
+	       {
+	       	case 1: 
+	       	       row=0; col=0;
+	       	       break;
+	       	case 2:
+	       		   row=0; col=1;
+	       		   break;
+	       	case 3:
+	       		   row=0; col=2;
+	       		   break;
+	       	case 4: 
+	       	       row=1; col=0;
+	       	       break;
+	       	case 5:
+	       		   row=1; col=1;
+	       		   break;
+	       	case 6: 
+	       	       row=1; col=2;
+	       	       break;
+	       	case 7:
+	       		   row=2; col=0;
+	       		   break;
+	       	case 8: 
+	       	       row=2; col=1;
+	       	       break;
+	       	case 9: 
+	       	       row=2; col=2;
+	       	       break;
+	       }
+	       
+	}while (ttt[row][col] != ' '); 
+}
+
+
+
+void CheckWin (void)  /* after each move, checks for a win */
+{
+ if (ttt[0][0] == player && ttt[0][1] == player && ttt[0][2] == player ||   /* checks for win in all ways */
+     ttt[1][0] == player && ttt[1][1] == player && ttt[1][2] == player ||
+     ttt[2][0] == player && ttt[2][1] == player && ttt[2][2] == player ||
+     ttt[0][0] == player && ttt[1][0] == player && ttt[2][0] == player ||
+     ttt[0][1] == player && ttt[1][1] == player && ttt[2][1] == player ||
+     ttt[0][2] == player && ttt[1][2] == player && ttt[2][2] == player ||
+     ttt[0][0] == player && ttt[1][1] == player && ttt[2][2] == player ||
+     ttt[0][2] == player && ttt[1][1] == player && ttt[2][0] == player )
+     win = 'y';
+}
+
+
+
+void main (void)
+{
+ for (row=0; row<=2; row++)     /* initializes board spaces to blank */
+     for (col=0; col<=2; col++)
+         ttt[row][col]=' ';
+ 
+ printf("Welcome to Tic-Tac-Toe!\n"
+        "Try to get 3 Xs or 3 Os in a row on the board in order to win.\n"
+        "Use the board and the key to determine your move and crush your opponent,"
+		" or just end with a draw.\n\n");
+
+ while (win != 'y' && countmove < 9) /* game is not win; moves less than 9 */
+      {
+	   PrintBoard();
+	   GetValidMove();
+	   ttt[row][col]= player;
+	   countmove = countmove + 1;
+	   CheckWin();
+	   if (win != 'y')       /* switches player */
+	      if (player == 'X')
+	          player = 'O';
+	      else 
+	         player = 'X';
+      }
+      
+ PrintBoard();
+ if (win == 'y')      /* checks for win or draw */
+     printf("Player %c is the winner!!",player);
+ else 
+     printf("It was a draw :(");
+}
