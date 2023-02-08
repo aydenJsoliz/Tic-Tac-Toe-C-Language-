@@ -1,4 +1,4 @@
-/* C program by Ayden Soliz for CS1310 Oct 2020
+/* C program by Ayden Soliz Oct 2020
  * This program allows two users to play a game of Tic-Tac-Toe until someone wins or 
    a tie is reached. The program prints out a board and a matching key, with designs
    of my choice.
